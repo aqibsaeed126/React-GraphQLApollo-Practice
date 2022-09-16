@@ -1,0 +1,397 @@
+---------------- GraphQL ---------------
+
+// Basics
+- developed by Fb in 2012, release in 2015
+- Its a query language for your API - open sources
+- It is organized into types , not endpoints
+- replacement of REST and SOAP
+- Why it is called GraphQL - Data representation is in Graphs data structure. Nodes are object. Edges are relationship b/w them
+- Its showing in logo as well
+- query language for getting and mutating data from server.
+- as BE dev , graphQL provide type system where you define your schema.
+- as FE dev, you have power to get data as miuch or as low as you want. no underfetch nor overfetch
+- Traditionally we consume data using REST. where separate endpoints for each resources
+- but with graphQL, we can use single entry point and can query any data we want.
+- FE describe data , make a query, BE resolve it and returns the data.
+- define custom schema , with type keyword in graphQL.field name and type and heirarchy
+- Can define relationshio b/w schemas/types. 1-1 , 1-many
+
+// type Query and Mutation and Subscription
+- Every GraphQL have query type, allow what data to query for consumer.
+- have mutation type to add/update data  
+- ON Server side , We write resolvers to resolve the queries. get data from DB and return that or update in DB.
+- We can explore and see in browswr using Explorer , query and json data returned
+- Subscription allow you for live subscription. Server send back live updates when any event happens. Its based on Web Sockets.
+-  
+
+
+// Advantages
+- Gives client power to ask for exactly what they want. nothing more, nothing less.need only first name field in user object. asked for it.
+- Multiple resources can request in single request. unlike REST. you need to do 2 separate REST API calls
+- /users and /books , in GraphQL {users{firstname}, books{id, name}}
+- Same syntax for graphQL in multiple programmming langauges
+- Single entry point + only required date is power of graphQL
+- Saves bandwidth due to less data
+- It hides underline implementation at Db level.
+
+// Key Components of GraphQL
+- Queries
+    request from client comes in form of query
+    like query{graphql { pizza ketchup fragrance}}
+- Schema and types
+    Its more of server side implementation
+    most important area of graphql
+    descrive functionality available for FE to query
+    usually we have type Query{}, type Student {id: ID!} (non nullable ID). Student is graphQl object
+- Resolver
+    Server side implementation. 
+    Basically its a query resolver.
+    parse query and see which method to call. what data to return to client back
+    Most important thing is Db schema and graphQL schema are decoupled.
+
+----------- GraphQL vs REST -----------
+// REST
+- Architectural constraints. RESt API is API that conforms these constraints 
+- REST API expose functionality as resrouces , identified by URI . Resource can be data, object, service.
+- client call REST API over http. GET/PUT/POST , server read it. matches resources , resolve and send back data.
+- Mostly things are conventions. like we can create user in DELETE type request as well.
+- Status codes for showing result of response. can send any response status code.
+- Map action to resources and send back the data
+- You dont need to learn any new query language for REST. 
+
+// GraphQL
+- it is query language and server side runtime as well.
+- Can use to query data from any possible data source. sql, mongo or any else
+- You are running graphQL code on top of server. 
+- single endpoint. /graphQL
+- Client ask for mutation or query in data on server side.
+- Query is passed as string. move to graphQL server.
+- srver side define queris type which we can call from client.
+- GraphQL is schema based. you can control from server what ever you want to give back or not. even it is part of query.
+- similarly client can query anything which is allowed.
+- Schemas are good in terms of security and bugs free.
+- Graph data structure used to set data.
+- Mutation is convention cotain resolver , that put or post the data.
+- Queries can be cached.
+- No need of versioning. You can do automatic validation.
+- If there is change in DB/fields. you not need to update all places like RESt
+- More maintaonable and good code.
+- Its upto us ,how we can parse query request from client. Server can handle whatever server wants. which object allow by server as mutation or query or subscription.
+
+
+// Common
+- Both are ways to get/post data to server
+- both use http
+- both exchange json
+- any client or server works well with both
+- both support statelessness
+- any client and server side framework/language
+- 
+
+
+// Differences
+- Architecture - REST is pattern. graphQL is query language and runtime  
+- Driven - GraphQL is client driven. can query any data | REST is server driven. whatever we request sends back
+- Deployment - GraphQl deployed over single http and can query any data. | RESr deployed over set of URLS
+- Caching - no built in caching in graphQL. can be done using library like Apollo. REST provides caching.
+- Data fetching - single API call with query | fixed data with diff API calls.
+- Documentation - sngle tool GraphiQL , REST have multiple options
+- Error handling - GraphQL dficult, REST easy using status codes.
+- xtensibility - need to create more endpoints for REST if new data request is needed. but not for graphQL.
+- datatype - graphQL only supports json. REST support multiple
+- Endpoints - REST can have different for diff resources , GraphQL have same with different queries
+- HTTP Verbs - REST have get/put/post/patch/delete , GraphQl have POST -> query,mutation,Subscription
+- 
+
+// Limitations GraphQL
+- not suitable other than json
+- not good for microservices Architecture
+- strugle in distributed systems
+- error handling in rest is good
+- cache not good by default
+
+
+// Which one to choose
+- Its subjective. bt depends on project reqruiements
+- if you want to use modern design style. and querying data is priority. go fot graphQL
+- if you want fixed data from URIS, auto caching, authentication. go for REST
+- Can also use mix approach for different modules or different app of organization.
+- for big projects. complex Schema DB. alot of API calls. then go for graphQL
+
+
+// Example to Understand
+- you are hungry. you want pizza, ketchup and fragrance for room.
+- there are 3 different data sources for each item
+- if Rest API is used. you will call 3 end points and get the data.
+- bt for graphQL. you call 1 endpoint. graphQL server do it for you.
+
+
+// GraphQL BAsics with SpaceX API
+- graphiQL is browser tool for graphQL explorer APi and query looking.
+- Use public link to make query and see result - https://api.spacex.land/graphql/
+- On left manu , we can choose fields to query. on middle window we can see auto generated query.
+- on play , we have result for query.
+- Every thing is strongly types in graphQL query. you must know schema to query and get back as FE dev.
+- single entry point. and query to passed. received queried data.
+- with REST only 5 lines of code on node. in GraphQL. whole setup complex.
+- Make a query to get all rockets in spacex.
+- Hover on Query Object. You can see schema defined on right side menu.
+- Select fields and subfields accordindgly. You can set limit and of set as well for pagination. 
+- Try doing get Rocket by ID. using 
+{
+    query{ // operation type
+        rocket(id: "falcon9") { // endpoint
+            id // fields we needed.
+            active
+            boosters
+            company
+            cost_per_launch
+            country
+        }
+    }
+  
+}
+- You can use variables with $variable in query. and use variables in querying at lower level of heirarchy.
+- We can have different options in writing query. @directives.
+- @skip if() , @include if, 
+- like query lunch($size: string, $glutenFree: Boolean){
+    sandwich(size: $size) {
+        bread @include(if: $glutenFree){}
+        bread @skip(if: $glutenFree){ avour tasted}
+
+    }
+}
+- Union type fragments in query graphQL. (search on it). side{... on Salad {dressing} ... on FrenchFries{size}}
+- Writing / updating data on Server side. from client side. You call for mutations. define in schema. 
+- Client side best wrapper is Apollo GraphQL Client. Work well with Angular and React both.
+- Apollo also supports android, IOS, react native, Web plain components.
+- Practical app for Apollo client wih Angular. (Skip , my concern is React example needed)
+- Install Apollo GraphQL extension.
+
+
+------------ Practical GraphQL Practice --------------
+
+// Node Server Side GraphQL
+
+- Create Node project. npm init and make package.json. install express and create MOCK_DATA file and insert user data in It
+- Use express and listen on port 6969
+- Install 2 package , graphQL and express-graphql. import using require graphqlHTTP.
+- EVerything is middleware in express. we can add middleware using app.use methid.
+- Middleware is  something b/w request coming and before reaching to actual route.
+- Create a graphQL server. For this , app.use , pass route which is /graphql. 
+- app.use('/graphql', graphqlHTTP{}). graphQLhttp define graphql config like schema, root resolver and graphiql tool.
+- graphiql is browser tool to visualize your tree and queries and result.
+- build Schema using method [new GraphQLSchema] in graphql library. within schema , we have queries and mutation usually.
+- query type is for querying info. mutation mean adding or updating the data.
+- import GraphqlObjectType, IntType, and Stringtype to create User types schema.
+- We create UserType, queryType and MutationType using syntax as in index.js
+- Make fields in usertype with data types, in query create queries field you want like getAllUsers or getUserByid. 
+- Similarly for mutation, set a type name and createUser mutation and define resolve to resolve it.
+- Hit http://localhost:6969/graphql , and see graphiQL interface. 
+- write your query there and mention fields and see result on right sode. hurray!!!
+- mutation {
+  createUser(firstName: "Aqib", lastName: "Saeed", email: "saeedaqib925@gmail.com", password: "Hello123"){
+    firstName,
+    lastName,
+    email,
+    password
+  }
+}
+query{
+  getAllUsers {
+    id,
+    firstName,
+    lastName,
+    password
+  }
+}
+- It creates new User with mutation. But in real scenario. You connect to DB and do operations on real Db. Simple....
+- Currently everything is in same file. You can put in different folder structure.
+- Schema/TypeDef/UserType , index.js for schema export. and use in main index.js
+- Easy to understand.
+- When you have nested fields of data. like user have userDetails. then for userDetails , you have to write resolve for it. It has parent args . which is user. match the foreign and primary key. and return data logic is here.
+- like fields: ()=>({userDetails: {type: userDetailType, resolve: (parent) => {return userDetails.find((u)=> u.userId === user.id)}}})
+- use function to return fields/queries and mutations. because of circular dependencies happends sometimes. user contains userDetail and userDetail contain user.
+- SIngle quote in graphiQL will not work. use double quotes instead.  
+- GraphQLSchema(more control - better approach - weird syntax) VS buildSchema (easy syntax - at end return graphQLSchema)
+
+// React Apollo - Client Side GraphQL
+- In last video , we created server side graphQL api in nodejs. see above notes
+- Now instead of doing query and mutation on GraphiQl from browser. we do from React Apollo client. 
+- Few simple steps to follow.
+- We have written getAllUser query , and addUser mutation.
+- create React Project. React-GraphQL
+- Do installation. npm i graphql @appolo/client
+- Setup Project for supporting and configuring graphql
+- Simply can be done as 
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql'
+});
+- Steps
+    1- import ApolloClient, InMemoryCache, ApolloProvider, HttpLInk, from, from @apollo/client to use.
+    2- Apollo clinet contain error library. so import it as well. onError.
+    3- Create client using ApolloClient. Inside it put cache and link. link is to our BE server.
+    4- build link using 'from' import. to pass in ApolloCLient constructor link property.
+    5- Wrap WHole app component with <ApolloProvider client={client}> <App/> </ApolloProvider>
+    6- Create 2 components. for createUser (mutation) & getAllUsers(query)
+    7- create graphQL folder and creation mutation.js and query.js file as well
+    8- copy same query and mutation in respective files using gql from graphql.
+    9- In getUsers component, import useQuery custom hook to do a query. 
+       const {error, loading, data} = useQuery(LOAD_USERS);
+    10- Show data in console.log in useEffect or in component UI State using data.map JSX.
+    11- create mutation gql using paramaters syntax as in Mutation.js file.
+    12- create form in createUser component and call Mutation on graphQL using useMutation or alternate way is client.mutate() as in our codebasew. 
+        const [createUser, {error}] = useMutation(ADD_USERS_MUTATION);
+    13- Now call createUser returned by useMutation Hook. and pass parameters like mentioned in file.
+
+- Passing param to query syntac useQuery is variables.
+  const userInfo = useQuery(VIEW_USERS, { variables: { id: 1 }});
+
+
+// Plain JS GraphQL API Calling
+- You can use graphQL API using fetch as well. pass in bodt the query and mutation. 
+- endpoint should be graphQL supported.
+- Kyle graphql tutorial with fetch youtube. Amazing..
+- COntinents and Countries example. get continents.
+- Select from Dropdown and fetch countries based on code.
+
+
+// Additional CLient Side concepts used in Codebase - from Official Documentation
+- Aliases
+    - If you want to query same object for different paramters for same query. You must use alias.
+    - {
+        empireHero: hero(episode: EMPIRE) { //empireHero is alias
+          name
+        }
+        jediHero: hero(episode: JEDI) {
+          name
+        }
+      }
+- fragments
+    - If you want to query same fields heirarchy in multiple queries. you have to write long fields again and again.
+    - Its like variable stored array and use that variable.
+    - create fragment for query and use it like as below.
+    - {
+        leftComparison: hero(episode: EMPIRE) {
+          ...comparisonFields
+        }
+        rightComparison: hero(episode: JEDI) {
+          ...comparisonFields
+        }
+      }
+
+      fragment comparisonFields on Character {
+        name
+        appearsIn
+        friends {
+          name
+        }
+      }
+    - Variables can also be used in fragment as param. taken from parent query param.
+    - Inline fragment syntax is under Union type.
+- Directives
+    - @include(if: boolean) AND @skip(if: boolean). use to include some fields in query based on some param and variables passed.
+    - example is
+    - query Hero($episode: Episode, $withFriends: Boolean!) {
+              hero(episode: $episode) {
+                name
+                friends @include(if: $withFriends) {
+                  name
+                }
+              }
+            }
+    - variables { "episode": "JEDI",  "withFriends": false }
+- Union Types in GraphQL
+     - Like Typescript , you can define union types using | symbol
+     - type searchResult = Book | Author.
+     - query union type using inline fragment syntax,
+     - query GetSearchResults {
+        search(contains: "Shakespeare") {
+          # Querying for __typename is almost always recommended,
+          # but it's even more important when querying a field that
+          # might return one of multiple types.
+          __typename
+          ... on Book {
+            title
+          }
+          ... on Author {
+            name
+          }
+        }
+      }
+    - It says, on type SearchResult, get title if Book type, get name if author type.
+
+- Caching
+    - Caching option is available in apollo client. 
+    - when you setup Apollo client. you can pass inmemoryCache object in it.
+    - FLow is like , if same query result not presentin cache, do server api call. return back result. store in cache and send back to client. and then on again call take it from cache. 
+    - data is stored as flat lookup table of objects.
+    - You can se cache result in Apollo client chrome extension. Its not extensively used in our code base.
+    - Possible types in InMemoryCache.
+    - For union or interface types , you specify in possibleTypes. Which type can have possible types super/sub relation.
+    - It helps managing cache. 
+    - you can add manually as well as generate using auto scripts as well.
+
+- Apollo link
+    - Object API provided by Apollo. Its like an interceptors conecept.
+    - graphQL Client and Server in b/w modifications, logging, sideeffects are doing inside chain of links.
+    - things like token add in header, logging, error handling is done in Links.
+    - combine links using from() method.
+    - HttpLink for uri setting graphQL url.
+    - on error link
+    - Auth link setContext , which means this context used by different links in chain for some purpose , update and transform. 
+    - const link = from([logoutLink, authLink, httpLink]);
+
+- UseMutation vs client.mutate
+    - Both are valid syntax. write mutation and pass in clien.mutate mutation and variables.
+    - return client
+      .mutate<Mutation, MutationUpdateCurrentUserProfileArgs>({
+        mutation: UPDATE_USER_PROFILE,
+        variables: args,
+      })
+      .then((response) => response.data?.updateCurrentUserProfile);
+
+- useQuery VS useLazyQuery
+    - useQuery immediately execute query and return data , loading and error.
+    - useLazyQuery give you method that contain query. you can execute it later on on any event and action. it returns a query function that yuou will execute later.
+    - const [getDog, { loading, error, data }] = useLazyQuery(GET_DOG_PHOTO); 
+    - call getDog lateron to execute query.
+
+- MockedProvider
+    - provided by Apollo in replacement of ApolloProvider for testing purpose.
+    - avoid calls to send to network server. instead return mock response you configured.
+
+- LazyQueryHookOptions VS LazyQueryResult
+    - Types provided by APollo library use with typescript. when call lazyQuery.
+    - passing options like onError, onCompleted , query , part of this type.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
